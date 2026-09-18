@@ -143,5 +143,27 @@
         cursor: pointer;
     }
 </style>
+<script>
+    function startGame() {
+        startTime = Date.now();
+        let numbers = [];
+        let boxes = document.querySelectorAll(".number-box");
+        for(let i = 0; i < 10; i++) {
+            let randomNumber = Math.round(Math.random() * 8999 + 1000);
+            numbers.push(randomNumber);
+            boxes[i].textContent = numbers[i];
+        }
+        setInterval(function() {
+            let elapsed = Date.now() - startTime;
+            let seconds = elapsed / 1000;
+            timeDisplay.textContent = seconds.toFixed(1);
+        }, 100);
+        console.log(numbers);
+    }
+    let startButton = document.querySelector(".start-new-game");
+    startButton.addEventListener("click", startGame);
+    let timeDisplay = document.querySelector(".time-screen");
+    let startTime;
+</script>
 </body>
 </html>
