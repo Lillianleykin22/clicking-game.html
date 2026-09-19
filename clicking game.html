@@ -22,7 +22,6 @@
         <div class="number-box"></div>
     </div>
     <div class="results-screen"></div>
-    <div class="game-over"></div>
         <button class="play-again">שחק שוב</button>
 </div>
 <style>
@@ -79,7 +78,7 @@
         min-width: 50px;
         min-height: 50px;
         margin: 0 auto;
-        text-align: right;
+        text-align: center;
         font-weight: bold;
         padding: 10px;
         font-size: 20px;
@@ -110,21 +109,6 @@
         align-items: center;
         text-align: center;
     }
-    .game-over {
-        order: 10;
-        background-color: antiquewhite;
-        border: 1px solid black;
-        border-radius: 5px;
-        min-width: 50px;
-        min-height: 50px;
-        margin: 0 auto;
-        text-align: center;
-        font-weight: bold;
-        padding: 10px;
-        font-size: 20px;
-        display: none;
-        justify-content: center;
-    }
     .play-again{
         background-color: #befbf9;
         order: 11;
@@ -145,6 +129,9 @@
 </style>
 <script>
     function startGame() {
+        mistakes = 0;
+        currentIndex = 0;
+        playAgainButton.style.display = "none";
         startTime = Date.now();
     let numbers = [];
     let boxes = document.querySelectorAll(".number-box");
@@ -175,8 +162,10 @@
     let mistakes = 0;
     let timerId;
     let resultsDisplay = document.querySelector(".results-screen");
-    let gameOverDisplay = document.querySelector(".game-over");
     let playAgainButton = document.querySelector(".play-again");
+    let bestScore = 999999;
+    let scoreDisplay = document.querySelector(".score-screen");
+    playAgainButton.addEventListener("click", startGame);
 
     function checkNumber(event) {
         let clickedNumber = Number(event.target.textContent);
@@ -186,8 +175,12 @@
             if (currentIndex === 10) {
                 clearInterval(timerId);
                 resultsDisplay.textContent = "נצחת";
-                gameOverDisplay.style.display = "flex";
                 playAgainButton.style.display = "flex";
+                let finalTime = Date.now() - startTime;
+                if (finalTime < bestScore) {
+                    bestScore = finalTime;
+                    scoreDisplay.textContent = (bestScore / 1000).toFixed(1);
+                }
             }
         } else {
             mistakes++;
@@ -196,7 +189,6 @@
             if (mistakes === 3) {
                 clearInterval(timerId);
                 resultsDisplay.textContent = "הפסדת";
-                gameOverDisplay.style.display = "flex";
                 playAgainButton.style.display = "flex";
             }
             setTimeout(function() {
