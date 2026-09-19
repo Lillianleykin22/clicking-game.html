@@ -183,6 +183,12 @@
         if (clickedNumber === sortedNumbers[currentIndex]) {
             event.target.style.backgroundColor = "green";
             currentIndex++;
+            if (currentIndex === 10) {
+                clearInterval(timerId);
+                resultsDisplay.textContent = "נצחת";
+                gameOverDisplay.style.display = "flex";
+                playAgainButton.style.display = "flex";
+            }
         } else {
             mistakes++;
             playErrorSound();
