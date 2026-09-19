@@ -152,6 +152,7 @@
     let randomNumber = Math.round(Math.random() * 8999 + 1000);
     numbers.push(randomNumber);
         boxes[i].textContent = numbers[i];
+        boxes[i].addEventListener("click", checkNumber);
     }
         setInterval(function() {
             let elapsed = Date.now() - startTime;
@@ -159,11 +160,33 @@
             timeDisplay.textContent = seconds.toFixed(1);
         }, 100);
     console.log(numbers);
+        sortedNumbers = numbers.slice();
+        sortedNumbers.sort(function(a, b)
+        {
+            return a - b; }
+        );
     }
     let startButton = document.querySelector(".start-new-game");
     startButton.addEventListener("click", startGame);
     let timeDisplay = document.querySelector(".time-screen");
     let startTime;
+    let sortedNumbers = [];
+    let currentIndex = 0;
+    let mistakes = 0;
+
+    function checkNumber(event) {
+        let clickedNumber = Number(event.target.textContent);
+        if (clickedNumber === sortedNumbers[currentIndex]) {
+            event.target.style.backgroundColor = "green";
+            currentIndex++;
+        } else {
+            mistakes++;
+            event.target.style.backgroundColor = "red";
+            setTimeout(function() {
+                event.target.style.backgroundColor = "";
+            }, 500);
+        }
+    }
 </script>
 </body>
 </html>
